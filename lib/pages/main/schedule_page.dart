@@ -450,7 +450,7 @@ class _SchedulePageState extends State<SchedulePage>
         children: [
           PageView.builder(
             controller: _pageController,
-            onPageChanged: (int value) {
+            onPageChanged: (int value) async {
               if (value < timetableOrder.length) {
                 serverIndex = timetableOrder[value];
               }

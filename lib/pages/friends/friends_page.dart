@@ -29,6 +29,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toasty_box/toasty_box.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'dart:math' as math;
 
 class FriendsPage extends StatefulWidget {
@@ -42,6 +43,11 @@ class _FriendsPageState extends State<FriendsPage>
     with TickerProviderStateMixin {
   /* ---- contact picker ---- */
   final FlutterContactPicker _contactPicker = new FlutterContactPicker();
+
+  /* -- for review --- */
+  final InAppReview inAppReview = InAppReview.instance;
+  int _reviewCount = 0;
+
   List<Contact>? _contacts;
 
   int bottomIndex = 0;
@@ -509,9 +515,21 @@ class _FriendsPageState extends State<FriendsPage>
       if (friendIndex >= 0 && friendIndex < friends.length) {
         return GestureDetector(
           // onTap에서 호출되는 부분
-          onTap: () {
+          onTap: () async {
             HapticFeedback.mediumImpact();
             if (!isEdit) {
+              setState(() {
+                _reviewCount++;
+                print('Review count: $_reviewCount');
+              });
+              if (_reviewCount == 5 ||
+                  _reviewCount == 20 ||
+                  _reviewCount == 50) {
+                if (await inAppReview.isAvailable()) {
+                  inAppReview.requestReview();
+                }
+              }
+
               showCupertinoModalBottomSheet(
                 context: context,
                 backgroundColor: Colors.transparent, // BottomSheet 배경을 투명하게 설정
