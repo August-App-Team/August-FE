@@ -183,6 +183,13 @@ class AugustFont {
       letterSpacing: -0.5,
       color: color);
 
+  static TextStyle captionSmallNormal3({Color? color}) => TextStyle(
+      fontFamily: 'Nanum',
+      fontWeight: FontWeight.w700,
+      fontSize: 13,
+      letterSpacing: -0.5,
+      color: color);
+
   static TextStyle chip({Color? color}) => TextStyle(
       fontFamily: 'Nanum',
       fontWeight: FontWeight.w700,

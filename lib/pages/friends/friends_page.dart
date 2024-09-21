@@ -523,10 +523,16 @@ class _FriendsPageState extends State<FriendsPage>
                 print('Review count: $_reviewCount');
               });
               if (_reviewCount == 5 ||
-                  _reviewCount == 20 ||
+                  _reviewCount == 12 ||
                   _reviewCount == 50) {
                 if (await inAppReview.isAvailable()) {
                   inAppReview.requestReview();
+                } else {
+                  if (Platform.isAndroid) {
+                    inAppReview.openStoreListing(
+                      appStoreId: 'com.august.android',
+                    );
+                  }
                 }
               }
 

@@ -300,14 +300,26 @@ class _MypageState extends State<Mypage> {
     );
 
     double textWidth = calculateTextWidth(text, buttonTextStyle, context);
-    double buttonWidth = textWidth + 45; // Add some padding to the text width
+    double buttonWidth = textWidth + 20; // Add some padding to the text width
 
     return Container(
       width: buttonWidth,
-      height: 40,
+      height: 30,
       decoration: BoxDecoration(
         color: buttonColor,
         borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow,
+            blurRadius: 10,
+            offset: const Offset(6, 4),
+          ),
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow,
+            blurRadius: 10,
+            offset: const Offset(-2, 0),
+          ),
+        ],
       ),
       child: Material(
         color: Colors.transparent,
@@ -317,7 +329,56 @@ class _MypageState extends State<Mypage> {
             child: Center(
               child: Text(
                 text,
-                style: AugustFont.chip2(color: Colors.black),
+                style: AugustFont.captionSmallNormal3(color: Colors.black),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget FeedbackButton(
+      String text, Color buttonColor, final VoidCallback onTap) {
+    TextStyle buttonTextStyle = TextStyle(
+      // Define your text style here
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    );
+
+    double textWidth = calculateTextWidth(text, buttonTextStyle, context);
+    double buttonWidth = textWidth + 65; // Add some padding to the text width
+
+    return Container(
+      width: buttonWidth,
+      height: 40,
+      decoration: BoxDecoration(
+        color: buttonColor,
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow,
+            blurRadius: 10,
+            offset: const Offset(6, 4),
+          ),
+          BoxShadow(
+            color: Theme.of(context).colorScheme.shadow,
+            blurRadius: 10,
+            offset: const Offset(-2, 0),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            child: Center(
+              child: Text(
+                text,
+                style: AugustFont.searchedTitle(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
               ),
             ),
           ),
@@ -604,20 +665,35 @@ class _MypageState extends State<Mypage> {
                         ),
                       ),
 
-                      //  PremiumWidget(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        child: Text(
-                          "Feedback",
-                          style: AugustFont.head1(
-                              color: Theme.of(context).colorScheme.outline),
+                      // //  PremiumWidget(),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       vertical: 10, horizontal: 10),
+                      //   child: Text(
+                      //     "Feedback",
+                      //     style: AugustFont.head1(
+                      //         color: Theme.of(context).colorScheme.outline),
+                      //   ),
+                      // ),
+                      // FeedbackTile(
+                      //   onTap: _launchURL,
+                      // ),
+                      SizedBox(height: 50),
+                      Center(
+                        child: FeedbackButton(
+                          'Send Feedback',
+                          Theme.of(context).colorScheme.primaryContainer,
+                          () {
+                            _launchURL();
+                          },
                         ),
                       ),
-                      FeedbackTile(
-                        onTap: _launchURL,
+
+                      SizedBox(height: 30),
+                      Divider(
+                        color: Theme.of(context).colorScheme.scrim,
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 25),
                       Center(
                         child: SignoutButton(
                           'Sign out',
@@ -646,12 +722,7 @@ class _MypageState extends State<Mypage> {
                           },
                         ),
                       ),
-
-                      SizedBox(height: 10),
-                      Divider(
-                        color: Theme.of(context).colorScheme.scrim,
-                      ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 25),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -672,7 +743,7 @@ class _MypageState extends State<Mypage> {
                       ),
                       SizedBox(height: 10),
                       terms(),
-                      SizedBox(height: 20),
+                      SizedBox(height: 25),
                       /* for admin */
                       if (adminEmails.contains(userDetails.email))
                         Column(
