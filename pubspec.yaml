@@ -1,0 +1,140 @@
+name: august
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.6
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  avatar_glow: ^3.0.1
+  change_app_package_name: ^1.3.0
+  flutter_launcher_icons: "^0.13.1"
+  flutter:
+    sdk: flutter
+  sign_in_with_apple: ^6.1.1
+  firebase_core: ^3.4.0
+  firebase_analytics: ^11.3.0
+  url_launcher: ^6.3.0
+  flutter_staggered_grid_view: ^0.7.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/launch/dark_prime.png"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+
+
+
+  http: ^1.1.0
+  image:
+  json_annotation: ^4.0.1
+  provider:
+  sizer: ^2.0.15
+  flutter_svg:
+  colorful_safe_area:
+  animations:
+  skeleton_text: 
+  shared_preferences:
+
+  flutter_feather_icons: ^2.0.0
+  modal_bottom_sheet: ^3.0.0-pre
+  animated_text_kit:
+  flutter_native_contact_picker: ^0.0.5
+  contacts_service: ^0.6.1
+  auth_buttons:
+  google_sign_in: ^6.2.1
+  shimmer:
+  flutter_bouncing_widgets: ^1.0.3
+  flutter_slidable: ^3.1.0
+  image_cropper: ^7.0.5
+  internet_connection_checker: ^1.0.0+1
+  animated_hint_textfield: ^1.0.1
+  intl: ^0.19.0
+  sliding_number: ^0.0.4
+  toasty_box: 
+  pull_to_refresh:
+  flutter_native_splash:
+  flutter_snake_navigationbar:
+  syncfusion_flutter_charts: 
+  lottie:
+  custom_sliding_segmented_control:
+  cached_network_image:
+  google_mobile_ads: 
+  flutter_dynamic_icon: ^2.1.0
+  app_tracking_transparency: ^2.0.6
+  flutter_email_sender: ^6.0.3
+  flutter_platform_alert: ^0.5.1
+
+  # for force update
+  package_info_plus: ^8.0.2
+  
+
+  #for the impage
+  image_picker:
+  # save screenshot
+  screenshot: ^3.0.0
+  image_gallery_saver: ^2.0.3
+  permission_handler: ^11.3.1
+
+  # save and share screenshot and more
+  share_plus: ^8.0.2
+  path_provider: ^2.1.2
+  
+flutter:
+  fonts:
+    - family: Nanum
+      fonts:
+        - asset: assets/fonts/NanumSquareRoundEB.ttf
+          weight: 800  # Extra Bold
+        - asset: assets/fonts/NanumSquareRoundB.ttf
+          weight: 700  # Bold
+        - asset: assets/fonts/NanumSquareRoundL.ttf
+          weight: 300  # Light
+        - asset: assets/fonts/NanumSquareRoundR.ttf
+          weight: 400  # Regular
+
+        
+
+  assets:
+  - assets/icons/horizontal-bar.svg
+  - assets/icons/option.svg
+  - assets/icons/semester.svg
+  - assets/icons/grade.svg
+  - assets/icons/major.svg
+  - assets/icons/univ.svg
+  - assets/icons/profile.svg
+  - assets/icons/courses.png
+  - assets/icons/wand.png
+  - assets/icons/manual.png
+  - assets/icons/help.png
+  - assets/memoji/Memoji1.png
+  - assets/memoji/Memoji2.png
+  - assets/memoji/Memoji3.png
+  - assets/memoji/Memoji4.png
+  - assets/memoji/Memoji5.png
+
+
+  # season
+  - assets/season/spring.svg
+  - assets/season/summer.svg
+  - assets/season/fall.svg
+  - assets/season/winter.svg
+
+  # splash
+  - assets/icons/splash.png
+
+  # launch icon
+  - assets/launch/
+
+  #lottie
+  - assets/lottie/magic_wand.json
+  - assets/lottie/share.json
+  - assets/lottie/success.json
+  - assets/lottie/cancel.json
+  - assets/lottie/crying.json
+  uses-material-design: true
