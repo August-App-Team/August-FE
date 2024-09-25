@@ -739,7 +739,7 @@ class _FriendsPageState extends State<FriendsPage>
                   ),
                   Spacer(),
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 25),
                     child: GestureDetector(
                       onTap: () async {
                         HapticFeedback.mediumImpact();
@@ -768,16 +768,16 @@ class _FriendsPageState extends State<FriendsPage>
                         }
                       },
                       child: Container(
-                        width: 100,
-                        height: 50,
+                        width: 85,
+                        height: 40,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         child: Center(
                           child: Text(
                             'My Code',
-                            style: AugustFont.head4(
+                            style: AugustFont.head9(
                               color: Theme.of(context).colorScheme.outline,
                             ),
                           ),
@@ -974,7 +974,7 @@ class _FriendsPageState extends State<FriendsPage>
                                         vertical: 18, horizontal: 15),
                                     decoration: BoxDecoration(
                                       color: Colors.blueAccent,
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Center(
                                       child: Text(

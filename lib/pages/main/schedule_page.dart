@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:august/components/firebase/firebase_analytics.dart';
+import 'package:august/components/home/new_sem_button.dart';
 import 'package:august/components/indicator/scrolling_dots_effect.dart';
 import 'package:august/components/indicator/smooth_page_indicator.dart';
 import 'package:august/components/home/loading.dart';
@@ -324,7 +325,6 @@ class _SchedulePageState extends State<SchedulePage>
 
   @override
   Widget build(BuildContext context) {
-    final coursesProvider = Provider.of<CoursesProvider>(context);
     final currentIndexProv = Provider.of<CurrentIndexProvider>(context);
 
     return WillPopScope(
@@ -357,7 +357,17 @@ class _SchedulePageState extends State<SchedulePage>
           children: [
             timeTableTitleAndSemester(),
             Spacer(),
-            getHelp(context),
+            //getHelp(context),
+            NewSemButton(
+              help: () {
+                directToHelp();
+              },
+              newSemester: () {
+                refreshToken();
+                HapticFeedback.mediumImpact();
+                _navigateToPageSemester();
+              },
+            ),
             // if (_timetableCollection.isNotEmpty) countTimeTable(),
           ],
         ),

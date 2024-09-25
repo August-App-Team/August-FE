@@ -12,8 +12,8 @@ Future<List<String>> fetchAllSemesters() async {
   // get school id
   int schoolId = await getSchoolId();
 
-  final response = await http.get(
-      Uri.parse('https://augustapp.one/semesters/?institution_id=$schoolId'));
+  final response = await http.get(Uri.parse(
+      'https://staging.augustapp.one/semesters/?institution_id=$schoolId'));
 
   if (response.statusCode == 200) {
     // Convert the list of int to a list of String

@@ -52,6 +52,13 @@ class AugustFont {
       letterSpacing: -0.5,
       color: color);
 
+  static TextStyle head9({Color? color}) => TextStyle(
+      fontFamily: 'Nanum',
+      fontWeight: FontWeight.w800,
+      fontSize: 16,
+      letterSpacing: -0.5,
+      color: color);
+
   static TextStyle timeAndDayText({Color? color}) => TextStyle(
       fontFamily: 'Nanum',
       fontWeight: FontWeight.w700,
@@ -103,6 +110,19 @@ class AugustFont {
       fontSize: 18,
       letterSpacing: -0.5,
       overflow: TextOverflow.ellipsis,
+      color: color);
+
+  static TextStyle textField3({Color? color}) => TextStyle(
+      fontFamily: 'Nanum',
+      fontWeight: FontWeight.w800,
+      fontSize: 15,
+      letterSpacing: -0.5,
+      color: color);
+  static TextStyle textField4({Color? color}) => TextStyle(
+      fontFamily: 'Nanum',
+      fontWeight: FontWeight.w800,
+      fontSize: 15,
+      letterSpacing: -1.2,
       color: color);
   static TextStyle button({Color? color}) => TextStyle(
       fontFamily: 'Nanum',
@@ -190,6 +210,12 @@ class AugustFont {
       letterSpacing: -0.5,
       color: color);
 
+  static TextStyle captionSmallNormal4({Color? color}) => TextStyle(
+      fontFamily: 'Nanum',
+      fontWeight: FontWeight.w800,
+      fontSize: 13,
+      letterSpacing: -0.5,
+      color: color);
   static TextStyle chip({Color? color}) => TextStyle(
       fontFamily: 'Nanum',
       fontWeight: FontWeight.w700,

@@ -17,7 +17,7 @@ class GroupHangoutRequest {
     final friendsQuery = friendUserId.join(',');
 
     final url = Uri.parse(
-        'https://staging.augustapp.one/friends/hangout/?semester=$semester&friends=$friendsQuery');
+        'https://augustapp.one/friends/hangout/?semester=$semester&friends=$friendsQuery');
     print(url);
     final response = await http.get(
       url,

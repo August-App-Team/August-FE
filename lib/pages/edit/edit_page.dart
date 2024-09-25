@@ -169,6 +169,8 @@ class _EditPageState extends State<EditPage> {
                   onTap: () async {
                     sendAddedOrRemovedCourse();
                     await AnalyticsService().editCreate();
+                    updateTimetableName(
+                        widget.semester, widget.index!, _nameController.text);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => HomePage()),

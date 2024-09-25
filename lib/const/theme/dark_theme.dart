@@ -33,6 +33,9 @@ ThemeData dartTheme = ThemeData(
     /* --- 그래프 색 */
 
     scrim: Colors.grey.shade700,
+
+    /* --- semester select color */
+    onInverseSurface: Color.fromARGB(255, 84, 84, 84),
   ),
 );
 

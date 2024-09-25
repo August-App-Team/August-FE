@@ -168,9 +168,7 @@ class _EditSearchPageState extends State<EditSearchPage>
 
   Future<List<CourseList>> _runSearch(String enteredKeyword) async {
     FetchClass _courses = FetchClass();
-    if (currentSemester == null) {
-      return []; // 또는 적절한 기본값 반환
-    }
+
     String semester = currentSemester!;
     String querytype = 'code';
 
@@ -194,10 +192,11 @@ class _EditSearchPageState extends State<EditSearchPage>
   void initState() {
     super.initState();
 
+    currentSemester =
+        Provider.of<SemesterProvider>(context, listen: false).semester;
     _initializeCourseList();
 
     _loadSearchKeywords();
-    _fetchLatestSemester();
     // Initialize the keyword controller and add listener
     this._keywordController = TextEditingController();
 
@@ -205,15 +204,6 @@ class _EditSearchPageState extends State<EditSearchPage>
     // Initialize animation controller
     this._controller =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
-  }
-
-  void _fetchLatestSemester() async {
-    List<String> semesters = await fetchAllSemesters();
-    if (semesters.isNotEmpty) {
-      setState(() {
-        currentSemester = semesters.last;
-      });
-    }
   }
 
   @override

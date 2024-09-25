@@ -32,5 +32,8 @@ ThemeData lightTheme = ThemeData(
     /* --- 그래프 색 */
 
     scrim: Colors.grey.shade200,
+
+    /* --- semester select color */
+    onInverseSurface: Color.fromARGB(255, 225, 224, 224),
   ),
 );
