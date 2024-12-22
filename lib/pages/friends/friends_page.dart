@@ -1018,11 +1018,11 @@ class _FriendsPageState extends State<FriendsPage>
           ),
         ),
       ),
-      floatingActionButton: friends.isNotEmpty
+      floatingActionButton: (!isEdit && friends.isNotEmpty)
           ? (_isFabExtended
               ? buildExtendedFAB(context, _onFabPressed)
               : buildFAB(context, _onFabPressed))
-          : SizedBox(),
+          : const SizedBox(),
     );
   }
 }
