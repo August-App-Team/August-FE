@@ -124,9 +124,7 @@ class ScrollingDotsPainter extends BasicIndicatorPainter {
         drawStar(
             canvas, xPos + 5, yPos, scaledWidth, 5, dotPaint..color = color);
       } else // Example usage within ScrollingDotsPainter
-      if (index == count - 1) {
-        drawPlus(canvas, xPos + 5, yPos, scaledWidth, dotPaint..color = color);
-      } else {
+      {
         final rRect = RRect.fromLTRBR(
           xPos - scaledWidth / 2 + effect.spacing / 2,
           yPos - scaledHeight / 2,

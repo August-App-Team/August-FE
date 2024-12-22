@@ -192,6 +192,8 @@ class _SelectPageState extends State<SelectPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
                             icon: Icon(
                               FeatherIcons.alertTriangle,
                               color: Colors.redAccent,

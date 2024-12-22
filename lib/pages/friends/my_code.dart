@@ -110,6 +110,7 @@ class _InvitationCodePageState extends State<InvitationCodePage>
       context: context, // Add context parameter
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
           icon: Icon(
             Icons.refresh,
             color: Colors.redAccent,

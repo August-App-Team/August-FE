@@ -47,9 +47,6 @@ abstract class BasicIndicatorPainter extends IndicatorPainter {
         if (i == 0) {
           drawStar(canvas, rect.center.dx, rect.center.dy, rect.width, 5,
               dotPaint); // Draw star for first dot
-        } else if (i == count - 1) {
-          drawPlus(canvas, rect.center.dx, rect.center.dy, rect.width,
-              dotPaint); // Draw plus for last dot
         } else {
           canvas.drawRRect(rect, dotPaint); // Draw normal dot
         }
@@ -81,23 +78,6 @@ abstract class BasicIndicatorPainter extends IndicatorPainter {
           Path()..addRRect(buildStillDot(i, size)));
     }
     canvas.drawPath(path, Paint()..blendMode = BlendMode.clear);
-  }
-
-  // Helper method to draw a plus
-  void drawPlus(Canvas canvas, double cx, double cy, double size, Paint paint) {
-    double thickness = size * 0.15; // Adjust the thickness of the plus sign
-    double halfThickness = thickness / 2;
-    double halfSize = size / 2;
-
-    // Horizontal bar
-    canvas.drawRect(
-        Rect.fromLTWH(cx - halfSize, cy - halfThickness, size, thickness),
-        paint);
-
-    // Vertical bar
-    canvas.drawRect(
-        Rect.fromLTWH(cx - halfThickness, cy - halfSize, thickness, size),
-        paint);
   }
 
   void drawStar(Canvas canvas, double cx, double cy, double size, int points,

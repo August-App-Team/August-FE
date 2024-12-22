@@ -52,71 +52,86 @@ class _DeleteConfirmPageState extends State<DeleteConfirmPage> {
       return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: ColorfulSafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    'Delete Account',
-                    style: AugustFont.head1(
-                        color: Theme.of(context).colorScheme.outline),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      'Delete Account',
+                      style: AugustFont.head1(
+                          color: Theme.of(context).colorScheme.outline),
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Center(
-                  child: Text(
-                    "Deleting your account will remove all your data from our servers. This action is irreversible.",
-                    style: AugustFont.head4(color: Colors.grey),
-                    textAlign: TextAlign.center,
+                  SizedBox(height: 10),
+                  Center(
+                    child: Text(
+                      "Deleting your account will remove all your data from our servers. This action is irreversible.",
+                      style: AugustFont.head4(color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-                Spacer(),
-                Center(
-                  child: Lottie.asset('assets/lottie/crying.json',
-                      height: 250, width: 250, repeat: true),
-                ),
-                (friends!.isNotEmpty)
-                    ? Center(
-                        child: StackedPhoto(
-                          isDeleteConfirm: true,
-                          imagePaths: [...friends!]
-                            ..sort((a, b) => a.compareTo(b)),
+                  Center(
+                    child: Lottie.asset('assets/lottie/crying.json',
+                        height: 250, width: 250, repeat: true),
+                  ),
+                  (friends!.isNotEmpty)
+                      ? Center(
+                          child: StackedPhoto(
+                            isDeleteConfirm: true,
+                            imagePaths: [...friends!]
+                              ..sort((a, b) => a.compareTo(b)),
+                          ),
+                        )
+                      : Container(),
+                  (friends!.isNotEmpty)
+                      ? SizedBox(height: 30)
+                      : SizedBox(height: 10),
+                  (friends!.isNotEmpty)
+                      ? Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Your friends are still here.",
+                                style: AugustFont.head6(
+                                    color:
+                                        Theme.of(context).colorScheme.outline),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Center(
+                              child: Text(
+                                "Are you sure you want to\n delete your account?",
+                                style: AugustFont.head6(
+                                    color:
+                                        Theme.of(context).colorScheme.outline),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Center(
+                          child: Text(
+                            "Are you sure you want to\ndelete your account?",
+                            style: AugustFont.head6(
+                                color: Theme.of(context).colorScheme.outline),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      )
-                    : Container(),
-                (friends!.isNotEmpty)
-                    ? SizedBox(height: 30)
-                    : SizedBox(height: 10),
-                (friends!.isNotEmpty)
-                    ? Center(
-                        child: Text(
-                          "Your friends are still here.\nAre you sure you want to delete your account?",
-                          style: AugustFont.head6(
-                              color: Theme.of(context).colorScheme.outline),
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    : Center(
-                        child: Text(
-                          "Are you sure you want to delete your account?",
-                          style: AugustFont.head6(
-                              color: Theme.of(context).colorScheme.outline),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                Spacer(),
-              ],
+                ],
+              ),
             ),
           ),
         ),
         bottomNavigationBar: Container(
           height: 180,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 40),
+            padding: const EdgeInsets.only(bottom: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -315,6 +315,7 @@ class _InitialPageState extends State<InitialPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
           icon: Icon(
             FeatherIcons.alertTriangle,
             color: Colors.redAccent,
@@ -366,6 +367,7 @@ class _InitialPageState extends State<InitialPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
           icon: Icon(
             FeatherIcons.alertTriangle,
             color: Colors.redAccent,

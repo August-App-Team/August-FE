@@ -7,11 +7,13 @@ import 'package:august/components/mepage/customize_icon.dart';
 import 'package:august/components/mepage/cuztomize_box.dart';
 import 'package:august/components/mepage/feedback.dart';
 import 'package:august/components/mepage/info_box.dart';
+import 'package:august/components/mepage/item_tile.dart';
 import 'package:august/components/mepage/premium.dart';
 import 'package:august/components/mepage/send_email.dart';
 import 'package:august/components/profile/profile.dart';
 import 'package:august/const/font/font.dart';
 import 'package:august/pages/deleteAccount/delete_confirm_page.dart';
+import 'package:august/pages/friends/friends_page.dart';
 import 'package:august/pages/profile/change_icon_page.dart';
 import 'package:august/provider/admin_provider.dart';
 import 'package:august/provider/course_color_provider.dart';
@@ -562,13 +564,28 @@ class _MypageState extends State<Mypage> {
                                 subInfo: '${userDetails.institution?.fullName}',
                               ),
                               SizedBox(width: 20),
-                              InfoWidget(
+                              GestureDetector(
                                 onTap: () {},
-                                isSchool: false,
-                                isFrirend: true,
-                                photo: 'assets/memoji/Memoji1.png',
-                                info: "Friends",
-                                subInfo: "${friendsCount} friends",
+                                child: InfoWidget(
+                                  onTap: () {
+                                    checkAccessToken();
+                                    HapticFeedback.lightImpact();
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        fullscreenDialog: true,
+                                        builder: (context) => FriendsPage(
+                                          isMepage: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  isSchool: true,
+                                  isFrirend: true,
+                                  photo: 'assets/memoji/Memoji1.png',
+                                  info: "Friends",
+                                  subInfo: "${friendsCount} friends",
+                                ),
                               ),
                               SizedBox(width: 20),
 
@@ -725,6 +742,7 @@ class _MypageState extends State<Mypage> {
                       SizedBox(height: 25),
                       GestureDetector(
                         onTap: () {
+                          HapticFeedback.lightImpact();
                           Navigator.push(
                             // Navigate to the initial page
                             context,

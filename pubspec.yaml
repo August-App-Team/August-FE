@@ -1,7 +1,7 @@
 name: august
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.6
+version: 1.1.0
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
@@ -102,40 +102,34 @@ flutter:
         
 
   assets:
-  - assets/icons/horizontal-bar.svg
-  - assets/icons/option.svg
-  - assets/icons/semester.svg
-  - assets/icons/grade.svg
-  - assets/icons/major.svg
-  - assets/icons/univ.svg
-  - assets/icons/profile.svg
-  - assets/icons/courses.png
-  - assets/icons/wand.png
-  - assets/icons/manual.png
-  - assets/icons/help.png
-  - assets/memoji/Memoji1.png
-  - assets/memoji/Memoji2.png
-  - assets/memoji/Memoji3.png
-  - assets/memoji/Memoji4.png
-  - assets/memoji/Memoji5.png
+    - assets/icons/horizontal-bar.svg
+    - assets/icons/option.svg
+    - assets/icons/semester.svg
+    - assets/icons/grade.svg
+    - assets/icons/major.svg
+    - assets/icons/univ.svg
+    - assets/icons/profile.svg
+    - assets/icons/courses.png
+    - assets/icons/wand.png
+    - assets/icons/manual.png
+    - assets/icons/help.png
+    - assets/memoji/Memoji1.png
+    - assets/memoji/Memoji2.png
+    - assets/memoji/Memoji3.png
+    - assets/memoji/Memoji4.png
+    - assets/memoji/Memoji5.png
+    - assets/season/spring.svg
+    - assets/season/summer.svg
+    - assets/season/fall.svg
+    - assets/season/winter.svg
+    - assets/icons/splash.png
+    - assets/launch/
+    - assets/lottie/magic_wand.json
+    - assets/lottie/share.json
+    - assets/lottie/success.json
+    - assets/lottie/cancel.json
+    - assets/lottie/crying.json
+    - assets/lottie/arrow.json
 
-
-  # season
-  - assets/season/spring.svg
-  - assets/season/summer.svg
-  - assets/season/fall.svg
-  - assets/season/winter.svg
-
-  # splash
-  - assets/icons/splash.png
-
-  # launch icon
-  - assets/launch/
-
-  #lottie
-  - assets/lottie/magic_wand.json
-  - assets/lottie/share.json
-  - assets/lottie/success.json
-  - assets/lottie/cancel.json
-  - assets/lottie/crying.json
+    - shorebird.yaml
   uses-material-design: true

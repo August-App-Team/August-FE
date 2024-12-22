@@ -48,6 +48,10 @@ class _SemesterPageState extends State<SemesterPage> {
   Widget build(BuildContext context) {
     List<String> semestersList =
         Provider.of<SemesterProvider>(context).semestersList;
+
+    Size screenSize = MediaQuery.of(context).size;
+    double minHeightForLargeDevice = 812.0;
+    bool isLargeDevice = screenSize.height > minHeightForLargeDevice;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: ColorfulSafeArea(
@@ -198,11 +202,9 @@ class _SemesterPageState extends State<SemesterPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          bottom: 60,
-        ),
+        padding: isLargeDevice
+            ? const EdgeInsets.only(left: 15, right: 15, bottom: 40, top: 40)
+            : const EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 15),
         child: widget.onboard
             ? GestureDetector(
                 onTap: () {
@@ -215,6 +217,8 @@ class _SemesterPageState extends State<SemesterPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
                           icon: Icon(
                             FeatherIcons.alertTriangle,
                             color: Colors.redAccent,

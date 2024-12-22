@@ -6,10 +6,7 @@ import 'package:august/provider/department_provider.dart';
 import 'package:august/provider/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:august/get_api/onboard/get_department.dart'; // Make sure this import is correct
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
-import 'package:flutter_svg/svg.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:animated_hint_textfield/animated_hint_textfield.dart';
 import 'package:provider/provider.dart';
@@ -151,6 +148,9 @@ class _MajorPageState extends State<MajorPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double minHeightForLargeDevice = 812.0;
+    bool isLargeDevice = screenSize.height > minHeightForLargeDevice;
     print('Current selectedMajor value: $selectedMajorNickname');
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -262,12 +262,12 @@ class _MajorPageState extends State<MajorPage> {
                         contentPadding: EdgeInsets.symmetric(vertical: 15.0),
                         border: OutlineInputBorder(
                           // 기본 테두리 설정
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none, // 둘레 색 없애기
                         ),
                         focusedBorder: OutlineInputBorder(
                           // 포커스 됐을 때의 테두리 설정
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none, // 둘레 색 없애기
                         ),
                         prefixIcon: Icon(
@@ -333,12 +333,9 @@ class _MajorPageState extends State<MajorPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          bottom: 60,
-          top: 20,
-        ),
+        padding: isLargeDevice
+            ? const EdgeInsets.only(left: 15, right: 15, bottom: 40, top: 20)
+            : const EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 15),
         child: widget.onboard
             ? GestureDetector(
                 onTap: () {
@@ -352,6 +349,8 @@ class _MajorPageState extends State<MajorPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
                           icon: Icon(
                             FeatherIcons.alertTriangle,
                             color: Colors.redAccent,

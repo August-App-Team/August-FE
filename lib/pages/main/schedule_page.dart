@@ -33,8 +33,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../components/timetable/timetable.dart';
 import '../edit/edit_page.dart';
-import '../group/group_page.dart';
-import '../manual/manual_page.dart';
+import 'package:lottie/lottie.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
 import 'dart:typed_data';
@@ -358,16 +357,17 @@ class _SchedulePageState extends State<SchedulePage>
             timeTableTitleAndSemester(),
             Spacer(),
             //getHelp(context),
-            NewSemButton(
-              help: () {
-                directToHelp();
-              },
-              newSemester: () {
-                refreshToken();
-                HapticFeedback.mediumImpact();
-                _navigateToPageSemester();
-              },
-            ),
+            // if (!isLoading)
+            //   NewSemButton(
+            //     help: () {
+            //       directToHelp();
+            //     },
+            //     newSemester: () {
+            //       refreshToken();
+            //       HapticFeedback.mediumImpact();
+            //       _navigateToPageSemester();
+            //     },
+            //   ),
             // if (_timetableCollection.isNotEmpty) countTimeTable(),
           ],
         ),
@@ -456,128 +456,122 @@ class _SchedulePageState extends State<SchedulePage>
 /* --- all the elements ---  */
   Widget timeTableBuilder(CurrentIndexProvider currentIndexProv) {
     return Expanded(
-      child: Stack(
-        children: [
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (int value) async {
-              if (value < timetableOrder.length) {
-                serverIndex = timetableOrder[value];
-              }
+      child: isLoading
+          ? Center(
+              child: GroupLoading4(context), // Show loading indicator
+            )
+          : _timetableCollection.isEmpty
+              ? Column(
+                  children: [
+                    Spacer(),
+                    Text(
+                      'Tap to create a new schedule !',
+                      style: AugustFont.head2(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Container(
+                      child: Lottie.asset(
+                        'assets/lottie/arrow.json',
+                        height: 200,
+                        fit: BoxFit.cover,
+                        repeat: true,
+                      ),
+                    ),
+                  ],
+                )
+              : Stack(
+                  children: [
+                    PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: (int value) async {
+                        if (value < timetableOrder.length) {
+                          serverIndex = timetableOrder[value];
+                        }
 
-              Provider.of<CurrentIndexProvider>(context, listen: false)
-                  .setCurrentIndex(value);
-              setState(() {
-                currentIndex = value;
-              });
-              if (currentIndex < _timetableCollection.length) {
-                var currentCourses =
-                    _timetableCollection[currentIndex].coursesData[0];
-                currentCourses.forEach((course) {});
-              }
-              if (value >= 7 && value < _timetableCollection.length) {
-                double scrollToPosition =
-                    (value - 7) * 20.0; // '20.0'은 도트와 여백의 크기에 따라 조정해야 할 수 있습니다.
-                if (_dotIndicatorScrollController.hasClients) {
-                  _dotIndicatorScrollController.animateTo(
-                    scrollToPosition,
-                    duration: const Duration(milliseconds: 800),
-                    curve: Curves.fastEaseInToSlowEaseOut,
-                  );
-                }
-              }
-            },
-            itemCount: _timetableCollection.length + 1,
-            itemBuilder: (BuildContext ctx, int index) {
-              if (index == _timetableCollection.length && !isLoading) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: createButton(),
-                      ),
-                    ],
-                  ),
-                );
-              } else if (isLoading) {
-                return GroupLoading4(context);
-              } else {
-                return Container(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 7),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(width: 20),
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 250),
-                              transitionBuilder:
-                                  (Widget child, Animation<double> animation) {
-                                // Using a fade transition and maintaining alignment to the start
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: AlignTransition(
-                                    alignment: Tween<Alignment>(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerLeft,
-                                    ).animate(animation),
-                                    child: child,
-                                  ),
-                                );
-                              },
-                              child: currentIndex == 0
-                                  ? Text(
-                                      "Main Schedule        ",
-                                      key: ValueKey<int>(1),
-                                      style: AugustFont.captionSmallBold(
-                                        color: Colors.grey,
-                                      ),
-                                    )
-                                  : Text(
-                                      "Personal Schedule",
-                                      key: ValueKey<int>(2),
-                                      style: AugustFont.captionSmallBold(
-                                        color: Colors.grey,
-                                      ),
+                        Provider.of<CurrentIndexProvider>(context,
+                                listen: false)
+                            .setCurrentIndex(value);
+                        setState(() {
+                          currentIndex = value;
+                        });
+                      },
+                      itemCount: _timetableCollection.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        return Container(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 7),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(width: 20),
+                                    AnimatedSwitcher(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      transitionBuilder: (Widget child,
+                                          Animation<double> animation) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: AlignTransition(
+                                            alignment: Tween<Alignment>(
+                                              begin: Alignment.centerLeft,
+                                              end: Alignment.centerLeft,
+                                            ).animate(animation),
+                                            child: child,
+                                          ),
+                                        );
+                                      },
+                                      child: currentIndex == 0
+                                          ? Text(
+                                              "Main Schedule",
+                                              key: ValueKey<int>(1),
+                                              style:
+                                                  AugustFont.captionSmallBold(
+                                                color: Colors.grey,
+                                              ),
+                                            )
+                                          : Text(
+                                              "Personal Schedule",
+                                              key: ValueKey<int>(2),
+                                              style:
+                                                  AugustFont.captionSmallBold(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
                                     ),
-                            ),
-                            Spacer(),
-                            moreButton(currentIndexProv),
-                          ],
-                        ),
+                                    Spacer(),
+                                    moreButton(currentIndexProv),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Stack(
+                                  alignment: Alignment.topCenter,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 30),
+                                      child: _timetableCollection[index],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    if (_timetableCollection.isNotEmpty)
+                      Positioned(
+                        bottom: 0,
+                        child: bottomIndicator(),
                       ),
-                      //이게 타임테이블
-                      Expanded(
-                        child: Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
-                              child: _timetableCollection[index],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
-          ),
-          if (_timetableCollection.isNotEmpty)
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                bottomIndicator(),
-              ],
-            ),
-        ],
-      ),
+                  ],
+                ),
     );
   }
 
@@ -684,345 +678,105 @@ class _SchedulePageState extends State<SchedulePage>
     );
   }
 
-  Widget createButton() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 38, left: 10, right: 10),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height - 332,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+  Widget bottomIndicator() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            HapticFeedback.mediumImpact();
+            _pageController.animateToPage(
+              0,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.fastEaseInToSlowEaseOut,
+            );
+          },
+          child: Row(
             children: [
-              AvatarGlow(
-                startDelay: const Duration(milliseconds: 1000),
-                glowColor: Colors.blueAccent,
-                glowShape: BoxShape.circle,
-                animate: true,
-                curve: Curves.fastOutSlowIn,
-                child: Container(
-                  height: 70,
-                  width: 70,
-                  decoration: const BoxDecoration(
-                    color: Colors.blueAccent, // 원하는 배경 색상 설정
-                    shape: BoxShape.circle, // 원형 모양 설정
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      HapticFeedback.mediumImpact();
-                      checkAccessToken();
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.background,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: GestureDetector(
-                              onTap: () {
-                                HapticFeedback.selectionClick();
-                                AnalyticsService().groupCreate();
-                                Navigator.pop(context);
-                                Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => GroupPage()));
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 300,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Pick Your Favorite!',
-                                      style: AugustFont.head1(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .outline),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 200,
-                                            width: 200,
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primaryContainer,
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .shadow,
-                                                  blurRadius: 10,
-                                                  offset: const Offset(6, 4),
-                                                ),
-                                                BoxShadow(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .shadow,
-                                                  blurRadius: 10,
-                                                  offset: const Offset(-2, 0),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Transform.rotate(
-                                                  angle: -5 * (pi / 180),
-                                                  child: Image.asset(
-                                                    'assets/icons/wand.png',
-                                                    height: 80,
-                                                    width: 80,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                  'Auto\nGenerate',
-                                                  style: AugustFont.head2(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .outline),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 20), // 버튼 사이의 간격
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              HapticFeedback.selectionClick();
-                                              Navigator.pop(context);
-                                              Navigator.push(
-                                                context,
-                                                CupertinoPageRoute(
-                                                  builder: (context) =>
-                                                      ManualPage(
-                                                    index: currentIndex + 1,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              height: 200,
-                                              width: 200,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primaryContainer,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .shadow,
-                                                    blurRadius: 10,
-                                                    offset: const Offset(6, 4),
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .shadow,
-                                                    blurRadius: 10,
-                                                    offset: const Offset(-2, 0),
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Transform.rotate(
-                                                    angle: 1 * (pi / 180),
-                                                    child: Image.asset(
-                                                      'assets/icons/manual.png',
-                                                      height: 80,
-                                                      width: 80,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 10),
-                                                  Text(
-                                                    'Manually\nCreate',
-                                                    style: AugustFont.head2(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .outline),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    icon: Icon(
-                      AugustIcons.add,
-                      size: 40,
-                    ),
-                    color: Colors.white, // 아이콘 색상 설정
+              Container(
+                color: Colors.transparent,
+                height: 20,
+                width: MediaQuery.sizeOf(context).width / 3,
+              ),
+              Container(
+                height: 20,
+                width: 20,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
                   ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                _timetableCollection.length > 1
-                    ? 'Create More'
-                    : 'Start Scheduling',
-                textAlign: TextAlign.center,
-                style: AugustFont.head1(
-                    color: Theme.of(context).colorScheme.outline),
-              ),
-              Text(
-                'Tap the plus button to get started',
-                textAlign: TextAlign.center,
-                style: AugustFont.subText(color: Colors.grey),
+                child: Center(
+                  child: Icon(
+                    AugustIcons.bottomLeft,
+                    size: 12,
+                  ),
+                ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget bottomIndicator() {
-    return Positioned(
-      bottom: 0,
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              HapticFeedback.mediumImpact();
-              _pageController.animateToPage(
-                0,
-                duration: const Duration(milliseconds: 800),
-                curve: Curves.fastEaseInToSlowEaseOut,
-              );
-            },
-            child: Row(
-              children: [
-                Container(
-                  color: Colors.transparent,
-                  height: 20,
-                  width: MediaQuery.sizeOf(context).width,
-                ),
-                Container(
-                  height: 20,
-                  width: 20,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      bottomLeft: Radius.circular(30),
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      AugustIcons.bottomLeft,
-                      size: 12,
-                    ),
-                  ),
-                ),
-              ],
+        Container(
+          height: 20,
+          width: 80,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          child: Center(
+            child: SmoothPageIndicator(
+              controller: _pageController,
+              count: _timetableCollection.length,
+              effect: ScrollingDotsEffect(
+                  activeStrokeWidth: 2,
+                  activeDotScale: 1.3,
+                  maxVisibleDots: 5,
+                  radius: 8,
+                  spacing: 8,
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  dotColor: Colors.grey,
+                  activeDotColor: Theme.of(context).colorScheme.outline),
             ),
           ),
-          Container(
-            height: 20,
-            width: 80,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            child: Center(
-              child: SmoothPageIndicator(
-                controller: _pageController,
-                count: _timetableCollection.length + 1,
-                effect: ScrollingDotsEffect(
-                    activeStrokeWidth: 2,
-                    activeDotScale: 1.3,
-                    maxVisibleDots: 5,
-                    radius: 8,
-                    spacing: 8,
-                    dotHeight: 8,
-                    dotWidth: 8,
-                    dotColor: Colors.grey,
-                    activeDotColor: Theme.of(context).colorScheme.outline),
+        ),
+        GestureDetector(
+          onTap: () {
+            HapticFeedback.mediumImpact();
+            _pageController.animateToPage(
+              _timetableCollection.length - 1,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.fastEaseInToSlowEaseOut,
+            );
+          },
+          child: Row(
+            children: [
+              Container(
+                height: 20,
+                width: 20,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    AugustIcons.bottomRight,
+                    size: 12,
+                  ),
+                ),
               ),
-            ),
+              Container(
+                color: Colors.transparent,
+                height: 20,
+                width: MediaQuery.sizeOf(context).width,
+              ),
+            ],
           ),
-          GestureDetector(
-            onTap: () {
-              HapticFeedback.mediumImpact();
-              _pageController.animateToPage(
-                _timetableCollection.length,
-                duration: const Duration(milliseconds: 800),
-                curve: Curves.fastEaseInToSlowEaseOut,
-              );
-            },
-            child: Row(
-              children: [
-                Container(
-                  height: 20,
-                  width: 20,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      AugustIcons.bottomRight,
-                      size: 12,
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.transparent,
-                  height: 20,
-                  width: MediaQuery.sizeOf(context).width,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

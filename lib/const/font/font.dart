@@ -184,6 +184,12 @@ class AugustFont {
       fontSize: 9.5,
       letterSpacing: -0.5,
       color: color);
+  static TextStyle captionSmallBold4({Color? color}) => TextStyle(
+      fontFamily: 'Nanum',
+      fontWeight: FontWeight.w800,
+      fontSize: 5,
+      letterSpacing: -0.5,
+      color: color);
   static TextStyle captionSmallNormal0({Color? color}) => TextStyle(
       fontFamily: 'Nanum',
       fontWeight: FontWeight.w900,
@@ -200,6 +206,12 @@ class AugustFont {
       fontFamily: 'Nanum',
       fontWeight: FontWeight.w400,
       fontSize: 8,
+      letterSpacing: -0.5,
+      color: color);
+  static TextStyle captionSmallNormal2_5({Color? color}) => TextStyle(
+      fontFamily: 'Nanum',
+      fontWeight: FontWeight.w900,
+      fontSize: 8.5,
       letterSpacing: -0.5,
       color: color);
 

@@ -144,6 +144,7 @@ class _GeneratePageState extends State<GeneratePage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
+                backgroundColor: Theme.of(context).colorScheme.background,
                 icon: Icon(
                   FeatherIcons.alertTriangle,
                   color: Colors.redAccent,
@@ -363,10 +364,6 @@ class _GeneratePageState extends State<GeneratePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    double minHeightForLargeDevice = 812.0;
-    bool isLargeDevice = screenSize.height > minHeightForLargeDevice;
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -402,7 +399,6 @@ class _GeneratePageState extends State<GeneratePage> {
             ),
           ),
         ),
-        titleSpacing: 0.0,
         title: Text(
           "Filters",
           style: AugustFont.head4(color: Theme.of(context).colorScheme.outline),
@@ -429,6 +425,8 @@ class _GeneratePageState extends State<GeneratePage> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.background,
                                 icon: Icon(
                                   FeatherIcons.alertTriangle,
                                   color: Colors.redAccent,
@@ -639,84 +637,121 @@ class _GeneratePageState extends State<GeneratePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Spacer(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FutureBuilder<int>(
-                  future: scheduleCount,
-                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting &&
-                        !snapshot.hasData) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 180,
-                            child: Center(
-                              child: AnimatedTextKit(
-                                repeatForever: true,
-                                animatedTexts: [
-                                  TypewriterAnimatedText(
-                                    "Calculating...",
-                                    textStyle: AugustFont.scheduleLoading(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .outline),
-                                    textAlign: TextAlign.center,
-                                    speed: Duration(milliseconds: 100),
-                                  ),
-                                ],
-                                isRepeatingAnimation: true,
-                                pause: Duration(milliseconds: 10),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    } else if (scheduleCount == null && snapshot.hasData) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Shimmer.fromColors(
-                            period: const Duration(milliseconds: 800),
-                            baseColor: Colors.grey[
-                                500]!, // Adjust the base color to match your theme
-                            highlightColor: Colors.grey[
-                                100]!, // Adjust the highlight color to match your theme
-                            child: SizedBox(
+            Flexible(
+              flex: 1,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder<int>(
+                    future: scheduleCount,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<int> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting &&
+                          !snapshot.hasData) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
                               width: MediaQuery.of(context).size.width,
-                              height: 145,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CustomSlidingNumber(
-                                      number: snapshot.data ?? 0,
-                                      curve: Curves.fastEaseInToSlowEaseOut,
-                                      style: AugustFont.scheduleCount(
+                              height: 180,
+                              child: Center(
+                                child: AnimatedTextKit(
+                                  repeatForever: true,
+                                  animatedTexts: [
+                                    TypewriterAnimatedText(
+                                      "Calculating...",
+                                      textStyle: AugustFont.scheduleLoading(
                                           color: Theme.of(context)
                                               .colorScheme
                                               .outline),
+                                      textAlign: TextAlign.center,
+                                      speed: Duration(milliseconds: 100),
                                     ),
                                   ],
+                                  isRepeatingAnimation: true,
+                                  pause: Duration(milliseconds: 10),
                                 ),
                               ),
                             ),
-                          ),
-                          Shimmer.fromColors(
-                            period: const Duration(milliseconds: 800),
-                            baseColor: Colors.grey[
-                                500]!, // Adjust the base color to match your theme
-                            highlightColor: Colors.grey[
-                                100]!, // Adjust the highlight color to match your theme
-                            child: Padding(
+                          ],
+                        );
+                      } else if (scheduleCount == null && snapshot.hasData) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Shimmer.fromColors(
+                              period: const Duration(milliseconds: 800),
+                              baseColor: Colors.grey[
+                                  500]!, // Adjust the base color to match your theme
+                              highlightColor: Colors.grey[
+                                  100]!, // Adjust the highlight color to match your theme
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 145,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CustomSlidingNumber(
+                                        number: snapshot.data ?? 0,
+                                        curve: Curves.fastEaseInToSlowEaseOut,
+                                        style: AugustFont.scheduleCount(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .outline),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Shimmer.fromColors(
+                              period: const Duration(milliseconds: 800),
+                              baseColor: Colors.grey[
+                                  500]!, // Adjust the base color to match your theme
+                              highlightColor: Colors.grey[
+                                  100]!, // Adjust the highlight color to match your theme
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 0),
+                                child: Text(
+                                  'SCHEDULES CREATED',
+                                  style: AugustFont.head1(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .outline),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else if (snapshot.data! >= 1000) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 145,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 0),
+                                child: StringSlidingNumber(
+                                  number: 1000,
+                                  duration: const Duration(milliseconds: 1000),
+                                  curve: Curves.fastEaseInToSlowEaseOut,
+                                  style: AugustFont.scheduleCount(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .outline),
+                                ),
+                              ),
+                            ),
+                            Padding(
                               padding: const EdgeInsets.only(top: 0),
                               child: Text(
                                 'SCHEDULES CREATED',
@@ -726,498 +761,490 @@ class _GeneratePageState extends State<GeneratePage> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                          ),
-                        ],
-                      );
-                    } else if (snapshot.data! >= 1000) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 145,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: StringSlidingNumber(
-                                number: 1000,
-                                duration: const Duration(milliseconds: 1000),
-                                curve: Curves.fastEaseInToSlowEaseOut,
-                                style: AugustFont.scheduleCount(
-                                    color:
-                                        Theme.of(context).colorScheme.outline),
+                          ],
+                        );
+                      } else if (snapshot.hasError) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Navigator.pop(context);
+                        });
+                        return Text(
+                          'Error',
+                          style: AugustFont.head1(
+                              color: Theme.of(context).colorScheme.outline),
+                          textAlign: TextAlign.center,
+                        );
+                      } else {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 145,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 0),
+                                child: SlidingNumber(
+                                  number: snapshot.data ?? 0,
+                                  duration: const Duration(milliseconds: 1000),
+                                  curve: Curves.fastEaseInToSlowEaseOut,
+                                  style: AugustFont.scheduleCount(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .outline),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0),
-                            child: Text(
-                              'SCHEDULES CREATED',
-                              style: AugustFont.head1(
-                                  color: Theme.of(context).colorScheme.outline),
-                              textAlign: TextAlign.center,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 0),
+                              child: Center(
+                                child: Text(
+                                  'SCHEDULES CREATED',
+                                  style: AugustFont.head1(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .outline),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    } else if (snapshot.hasError) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Navigator.pop(context);
-                      });
-                      return Text(
-                        'Error',
-                        style: AugustFont.head1(
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 10),
+                      child: Text(
+                        'Calculating the number of possible timetables may take up to 30 seconds.',
+                        style: AugustFont.captionSmall(
                             color: Theme.of(context).colorScheme.outline),
                         textAlign: TextAlign.center,
-                      );
-                    } else {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 145,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 0),
-                              child: SlidingNumber(
-                                number: snapshot.data ?? 0,
-                                duration: const Duration(milliseconds: 1000),
-                                curve: Curves.fastEaseInToSlowEaseOut,
-                                style: AugustFont.scheduleCount(
-                                    color:
-                                        Theme.of(context).colorScheme.outline),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0),
-                            child: Center(
-                              child: Text(
-                                'SCHEDULES CREATED',
-                                style: AugustFont.head1(
-                                    color:
-                                        Theme.of(context).colorScheme.outline),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-            Spacer(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                  child: Text(
-                    'Calculating the number of possible timetables may take up to 30 seconds.',
-                    style: AugustFont.captionSmall(
-                        color: Theme.of(context).colorScheme.outline),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Theme.of(context).colorScheme.shadow,
-                          blurRadius: (10),
-                          offset: (Offset(0, 1)),
-                        )
-                      ],
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15, left: 25),
-                          child: RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: 'Class starts at  ',
-                                  style: AugustFont.head5(color: Colors.grey),
-                                ),
-                                TextSpan(
-                                  text: formatForFirstSlider(Duration(
-                                      minutes: _currentSliderValue1.round())),
-                                  style: AugustFont.head2(
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                ),
-                              ],
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).colorScheme.shadow,
+                              blurRadius: (10),
+                              offset: (Offset(0, 1)),
+                            )
+                          ],
                         ),
-                        Container(
-                          width: double.infinity,
-                          child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              thumbShape:
-                                  RoundSliderThumbShape(enabledThumbRadius: 15),
-                              inactiveTrackColor: Colors.grey,
-                              activeTrackColor: Colors.blueAccent,
-                              thumbColor: Colors.white,
-                              inactiveTickMarkColor:
-                                  Theme.of(context).colorScheme.outline,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15, left: 25),
+                              child: RichText(
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: 'Class starts at  ',
+                                      style:
+                                          AugustFont.head5(color: Colors.grey),
+                                    ),
+                                    TextSpan(
+                                      text: formatForFirstSlider(Duration(
+                                          minutes:
+                                              _currentSliderValue1.round())),
+                                      style: AugustFont.head2(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .outline,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            child: Slider(
-                              value: _currentSliderValue1,
-                              min: _slider1Min,
-                              max: _slider1Max,
-                              divisions:
-                                  (_slider1Max - _slider1Min) ~/ 60, // 여기서 수정
-                              onChanged: (double newValue) {
-                                HapticFeedback.mediumImpact();
-                                setState(() {
-                                  _currentSliderValue1 = newValue;
+                            Container(
+                              width: double.infinity,
+                              child: SliderTheme(
+                                data: SliderTheme.of(context).copyWith(
+                                  thumbShape: RoundSliderThumbShape(
+                                      enabledThumbRadius: 15),
+                                  inactiveTrackColor: Colors.grey,
+                                  activeTrackColor: Colors.blueAccent,
+                                  thumbColor: Colors.white,
+                                  inactiveTickMarkColor:
+                                      Theme.of(context).colorScheme.outline,
+                                ),
+                                child: Slider(
+                                  value: _currentSliderValue1,
+                                  min: _slider1Min,
+                                  max: _slider1Max,
+                                  divisions: (_slider1Max - _slider1Min) ~/
+                                      60, // 여기서 수정
+                                  onChanged: (double newValue) {
+                                    HapticFeedback.mediumImpact();
+                                    setState(() {
+                                      _currentSliderValue1 = newValue;
 
-                                  Duration(
-                                      minutes: _currentSliderValue1.round());
-                                });
-                                onSliderChanged(newValue, "start_time");
-                              },
-                              onChangeEnd: (double endVal) {
-                                onSliderEnd(endVal, "start_time");
-                                setState(() {
-                                  counter++;
-                                  print(counter);
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                        // Divider(
-                        //   color: Theme.of(context).colorScheme.background,
-                        // ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5, left: 25),
-                          child: RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: 'Allow  ',
-                                  style: AugustFont.head5(color: Colors.grey),
+                                      Duration(
+                                          minutes:
+                                              _currentSliderValue1.round());
+                                    });
+                                    onSliderChanged(newValue, "start_time");
+                                  },
+                                  onChangeEnd: (double endVal) {
+                                    onSliderEnd(endVal, "start_time");
+                                    setState(() {
+                                      counter++;
+                                      print(counter);
+                                    });
+                                  },
                                 ),
-                                TextSpan(
-                                  text: _currentSliderValue4.round().toString(),
-                                  style: AugustFont.head2(
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '  lectures in a row',
-                                  style: AugustFont.head5(color: Colors.grey),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              thumbShape:
-                                  RoundSliderThumbShape(enabledThumbRadius: 15),
-                              inactiveTrackColor: Colors.grey, // 선택되지 않은 트랙의 색상
-                              activeTrackColor:
-                                  Colors.blueAccent, // 진행바(활성 트랙)의 색상
-                              thumbColor: Colors.white, // 이곳에 원하는 색상을 설정합니다.
-                              inactiveTickMarkColor:
-                                  Theme.of(context).colorScheme.outline,
+                            // Divider(
+                            //   color: Theme.of(context).colorScheme.background,
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5, left: 25),
+                              child: RichText(
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: 'Allow  ',
+                                      style:
+                                          AugustFont.head5(color: Colors.grey),
+                                    ),
+                                    TextSpan(
+                                      text: _currentSliderValue4
+                                          .round()
+                                          .toString(),
+                                      style: AugustFont.head2(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .outline,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '  lectures in a row',
+                                      style:
+                                          AugustFont.head5(color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            child: Slider(
-                              value: _currentSliderValue4,
-                              min: _slider4Min,
-                              max: _slider4Max,
+                            Container(
+                              width: double.infinity,
+                              child: SliderTheme(
+                                data: SliderTheme.of(context).copyWith(
+                                  thumbShape: RoundSliderThumbShape(
+                                      enabledThumbRadius: 15),
+                                  inactiveTrackColor:
+                                      Colors.grey, // 선택되지 않은 트랙의 색상
+                                  activeTrackColor:
+                                      Colors.blueAccent, // 진행바(활성 트랙)의 색상
+                                  thumbColor:
+                                      Colors.white, // 이곳에 원하는 색상을 설정합니다.
+                                  inactiveTickMarkColor:
+                                      Theme.of(context).colorScheme.outline,
+                                ),
+                                child: Slider(
+                                  value: _currentSliderValue4,
+                                  min: _slider4Min,
+                                  max: _slider4Max,
 
-                              divisions:
-                                  (_slider4Max - _slider4Min).round(), // 여기서 수정
-                              onChanged: (double newValue) {
-                                HapticFeedback.mediumImpact();
-                                onSliderChanged(newValue, "allow_consec");
-                              },
-                              onChangeEnd: (double endVal) {
-                                onSliderEnd(endVal, "allow_consec");
-                                setState(() {
-                                  counter++;
-                                  print(counter);
-                                });
-                              },
+                                  divisions: (_slider4Max - _slider4Min)
+                                      .round(), // 여기서 수정
+                                  onChanged: (double newValue) {
+                                    HapticFeedback.mediumImpact();
+                                    onSliderChanged(newValue, "allow_consec");
+                                  },
+                                  onChangeEnd: (double endVal) {
+                                    onSliderEnd(endVal, "allow_consec");
+                                    setState(() {
+                                      counter++;
+                                      print(counter);
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        if (isLargeDevice)
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 10, left: 25),
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Min. Break  :  ',
-                                          style: AugustFont.head5(
-                                              color: Colors.grey)),
-                                      TextSpan(
-                                        text: formatDuration(Duration(
-                                            minutes:
-                                                _currentSliderValue2.round())),
-                                        style: AugustFont.head2(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .outline,
+
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 10, left: 25),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: 'Min. Break  :  ',
+                                            style: AugustFont.head5(
+                                                color: Colors.grey)),
+                                        TextSpan(
+                                          text: formatDuration(Duration(
+                                              minutes: _currentSliderValue2
+                                                  .round())),
+                                          style: AugustFont.head2(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .outline,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                child: SliderTheme(
-                                  data: SliderTheme.of(context).copyWith(
-                                    thumbShape: RoundSliderThumbShape(
-                                        enabledThumbRadius: 15),
-                                    inactiveTrackColor: Colors.grey,
-                                    activeTrackColor: Colors.blueAccent,
-                                    thumbColor: Colors.white,
-                                    inactiveTickMarkColor:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                  child: Slider(
-                                    value: _currentSliderValue2,
-                                    min: _slider2Min,
-                                    max: _slider2Max,
-                                    divisions: (_slider2Max - _slider2Min) ~/
-                                        10, // 여기서 수정
-                                    onChanged: (double newValue) {
-                                      HapticFeedback.mediumImpact();
-                                      onSliderChanged(newValue, "min_interval");
-                                    },
-                                    onChangeEnd: (double endVal) {
-                                      onSliderEnd(endVal, "min_interval");
-                                      setState(() {
-                                        counter++;
-                                        print(counter);
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 5, left: 25),
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: 'Max. Break  :  ',
-                                        style: AugustFont.head5(
-                                            color: Colors.grey),
-                                      ),
-                                      TextSpan(
-                                        text: formatDurationInHours(Duration(
-                                            minutes:
-                                                _currentSliderValue3.round())),
-                                        style: AugustFont.head2(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .outline,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: double.infinity,
-                                child: SliderTheme(
-                                  data: SliderTheme.of(context).copyWith(
-                                    thumbShape: RoundSliderThumbShape(
-                                        enabledThumbRadius: 15),
-                                    inactiveTrackColor:
-                                        Colors.grey, // 선택되지 않은 트랙의 색상
-                                    activeTrackColor:
-                                        Colors.blueAccent, // 진행바(활성 트랙)의 색상
-                                    thumbColor:
-                                        Colors.white, // 이곳에 원하는 색상을 설정합니다.
-                                    inactiveTickMarkColor:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                  child: Slider(
-                                    value: _currentSliderValue3,
-                                    min: _slider3Min,
-                                    max: _slider3Max,
-                                    divisions:
-                                        ((_slider3Max - _slider3Min) / 60)
-                                            .round(), // 여기서 수정
-                                    onChanged: (double newValue) {
-                                      HapticFeedback.mediumImpact();
-                                      onSliderChanged(newValue, "max_interval");
-                                    },
-                                    onChangeEnd: (double endVal) {
-                                      onSliderEnd(endVal, "max_interval");
-                                      setState(() {
-                                        counter++;
-                                        print(counter);
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 10, bottom: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomBounceWidget(
-                                duration: Duration(milliseconds: 100),
-                                child: AnimatedContainer(
-                                  decoration: BoxDecoration(
-                                    color: isButton2Pressed
-                                        ? Colors.redAccent
-                                        : Colors.blueAccent,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(20),
+                                      ],
                                     ),
                                   ),
-                                  height: 90,
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.5,
-                                  duration: Duration(milliseconds: 250),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
+                                ),
+                                Container(
+                                  width: double.infinity,
+                                  child: SliderTheme(
+                                    data: SliderTheme.of(context).copyWith(
+                                      thumbShape: RoundSliderThumbShape(
+                                          enabledThumbRadius: 15),
+                                      inactiveTrackColor: Colors.grey,
+                                      activeTrackColor: Colors.blueAccent,
+                                      thumbColor: Colors.white,
+                                      inactiveTickMarkColor:
+                                          Theme.of(context).colorScheme.outline,
+                                    ),
+                                    child: Slider(
+                                      value: _currentSliderValue2,
+                                      min: _slider2Min,
+                                      max: _slider2Max,
+                                      divisions: (_slider2Max - _slider2Min) ~/
+                                          10, // 여기서 수정
+                                      onChanged: (double newValue) {
+                                        HapticFeedback.mediumImpact();
+                                        onSliderChanged(
+                                            newValue, "min_interval");
+                                      },
+                                      onChangeEnd: (double endVal) {
+                                        onSliderEnd(endVal, "min_interval");
+                                        setState(() {
+                                          counter++;
+                                          print(counter);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 5, left: 25),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: 'Max. Break  :  ',
+                                          style: AugustFont.head5(
+                                              color: Colors.grey),
+                                        ),
+                                        TextSpan(
+                                          text: formatDurationInHours(Duration(
+                                              minutes: _currentSliderValue3
+                                                  .round())),
+                                          style: AugustFont.head2(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .outline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: double.infinity,
+                                  child: SliderTheme(
+                                    data: SliderTheme.of(context).copyWith(
+                                      thumbShape: RoundSliderThumbShape(
+                                          enabledThumbRadius: 15),
+                                      inactiveTrackColor:
+                                          Colors.grey, // 선택되지 않은 트랙의 색상
+                                      activeTrackColor:
+                                          Colors.blueAccent, // 진행바(활성 트랙)의 색상
+                                      thumbColor:
+                                          Colors.white, // 이곳에 원하는 색상을 설정합니다.
+                                      inactiveTickMarkColor:
+                                          Theme.of(context).colorScheme.outline,
+                                    ),
+                                    child: Slider(
+                                      value: _currentSliderValue3,
+                                      min: _slider3Min,
+                                      max: _slider3Max,
+                                      divisions:
+                                          ((_slider3Max - _slider3Min) / 60)
+                                              .round(), // 여기서 수정
+                                      onChanged: (double newValue) {
+                                        HapticFeedback.mediumImpact();
+                                        onSliderChanged(
+                                            newValue, "max_interval");
+                                      },
+                                      onChangeEnd: (double endVal) {
+                                        onSliderEnd(endVal, "max_interval");
+                                        setState(() {
+                                          counter++;
+                                          print(counter);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 10, bottom: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomBounceWidget(
+                                    duration: Duration(milliseconds: 100),
+                                    child: AnimatedContainer(
+                                      decoration: BoxDecoration(
+                                        color: isButton2Pressed
+                                            ? Colors.redAccent
+                                            : Colors.blueAccent,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20),
+                                        ),
+                                      ),
+                                      height: 90,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      duration: Duration(milliseconds: 250),
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Center(
-                                            child: Text(
-                                              isButton2Pressed
-                                                  ? 'Disallow'
-                                                  : 'Allow',
-                                              style: AugustFont.head2(
-                                                color: Colors.white,
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Center(
+                                                child: Text(
+                                                  isButton2Pressed
+                                                      ? 'Disallow'
+                                                      : 'Allow',
+                                                  style: AugustFont.head2(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          Text(
-                                            'One Class In a Day',
-                                            style: AugustFont.subText(
-                                              color: Colors.white,
-                                            ),
+                                              Text(
+                                                'One Class In a Day',
+                                                style: AugustFont.subText(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                onPressed: () {
-                                  onButtonPressed("allow_one_class_a_day");
-                                  setState(() {
-                                    counter++;
-                                    print(counter);
-                                  });
-                                  HapticFeedback.mediumImpact();
-                                },
-                              ),
-                              SizedBox(width: 15),
-                              CustomBounceWidget(
-                                  duration: Duration(milliseconds: 100),
-                                  child: AnimatedContainer(
-                                    decoration: BoxDecoration(
-                                      color: isButton3Pressed
-                                          ? Colors.blueAccent
-                                          : Colors.redAccent,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
                                     ),
-                                    height: 90,
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.5,
-                                    duration: Duration(milliseconds: 250),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Column(
+                                    onPressed: () {
+                                      onButtonPressed("allow_one_class_a_day");
+                                      setState(() {
+                                        counter++;
+                                        print(counter);
+                                      });
+                                      HapticFeedback.mediumImpact();
+                                    },
+                                  ),
+                                  SizedBox(width: 15),
+                                  CustomBounceWidget(
+                                      duration: Duration(milliseconds: 100),
+                                      child: AnimatedContainer(
+                                        decoration: BoxDecoration(
+                                          color: isButton3Pressed
+                                              ? Colors.blueAccent
+                                              : Colors.redAccent,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(20),
+                                          ),
+                                        ),
+                                        height: 90,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
+                                        duration: Duration(milliseconds: 250),
+                                        child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Center(
-                                              child: Text(
-                                                isButton3Pressed
-                                                    ? 'Only'
-                                                    : 'All',
-                                                style: AugustFont.head2(
-                                                  color: Colors.white,
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Center(
+                                                  child: Text(
+                                                    isButton3Pressed
+                                                        ? 'Only'
+                                                        : 'All',
+                                                    style: AugustFont.head2(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Text(
-                                              isButton3Pressed
-                                                  ? 'Open Sections'
-                                                  : "Available Sections",
-                                              style: AugustFont.subText(
-                                                color: Colors.white,
-                                              ),
+                                                Text(
+                                                  isButton3Pressed
+                                                      ? 'Open Sections'
+                                                      : "Available Sections",
+                                                  style: AugustFont.subText(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    onButtonPressed("allow_only_open_section");
-                                    setState(() {
-                                      counter++;
-                                      print(counter);
-                                    });
-                                    HapticFeedback.mediumImpact();
-                                  }),
-                              SizedBox(height: 15),
-                            ],
-                          ),
+                                      ),
+                                      onPressed: () {
+                                        onButtonPressed(
+                                            "allow_only_open_section");
+                                        setState(() {
+                                          counter++;
+                                          print(counter);
+                                        });
+                                        HapticFeedback.mediumImpact();
+                                      }),
+                                  SizedBox(height: 15),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 20),
+                  ],
                 ),
-                SizedBox(height: 40),
-              ],
+              ),
             ),
           ],
         ),

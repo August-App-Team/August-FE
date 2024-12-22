@@ -93,11 +93,11 @@ class SingleTimetable extends StatefulWidget {
 
 class _SingleTimetableState extends State<SingleTimetable> {
   final List<String> week = ['M', 'Tu', 'W', 'Th', 'F'];
-  final double FirstColumnHeight = 20;
+  final double firstColumnHeight = 15;
   final double tabletFirstColumnHeight = 20;
-  final double boxSize = 60;
+  final double boxSize = 45;
   final double tabletBoxSize = 120;
-  late int ColumnLength;
+  late int columnLength;
   List<ScheduleList>? courses;
   late List<int> displayedHours;
   late Duration earliestStartTime;
@@ -173,7 +173,7 @@ class _SingleTimetableState extends State<SingleTimetable> {
       // 'earliestStartTime'을 시간 기준으로 조정
       earliestStartTime = Duration(hours: earliestStartTime.inHours);
     }
-    ColumnLength =
+    columnLength =
         ((latestEndTime.inMinutes - earliestStartTime.inMinutes) / 30 + 1)
             .round();
   }
@@ -238,7 +238,7 @@ class _SingleTimetableState extends State<SingleTimetable> {
     var top = DeviceUtils.isTablet(context)
         ? (tabletFirstColumnHeight +
             (startOffsetMinutes / 60.0 * tabletBoxSize))
-        : (FirstColumnHeight + (startOffsetMinutes / 60.0 * boxSize));
+        : (firstColumnHeight + (startOffsetMinutes / 60.0 * boxSize));
 
     var height = DeviceUtils.isTablet(context)
         ? (durationMinutes / 60.0 * tabletBoxSize)
@@ -295,7 +295,7 @@ class _SingleTimetableState extends State<SingleTimetable> {
               children: <TextSpan>[
                 TextSpan(
                   text: formatMinutes(durationMinutes),
-                  style: AugustFont.captionSmallBold2(color: Colors.black),
+                  style: AugustFont.captionSmallBold4(color: Colors.black),
                 ),
               ],
             ),
@@ -304,12 +304,19 @@ class _SingleTimetableState extends State<SingleTimetable> {
       }
     } else {
       if (height < 60 && !widget.isCustomizeColor) {
+        // 정상 사이즈
         children.addAll([
-          Text(
-            schedule.sectionCode!,
-            style: AugustFont.captionSmallNormal0(color: Colors.black),
-          ),
-          if (isLargeDevice && Platform.isIOS)
+          (height > 55)
+              ? Text(
+                  schedule.sectionCode!,
+                  style: AugustFont.captionSmallNormal0(color: Colors.black),
+                )
+              : Text(
+                  schedule.sectionCode!,
+                  style: AugustFont.captionSmallNormal2_5(color: Colors.black),
+                ),
+
+          if (isLargeDevice && Platform.isIOS && height > 45)
             Text(
               '${schedule.instructors!.first}',
               overflow: TextOverflow.ellipsis,
@@ -319,6 +326,7 @@ class _SingleTimetableState extends State<SingleTimetable> {
           // Add other widgets specific to height > 20 condition
         ]);
       } else if (height > 50 && !widget.isCustomizeColor) {
+        // 큰거
         children.addAll([
           Text(
             schedule.sectionCode!,
@@ -979,8 +987,8 @@ class _SingleTimetableState extends State<SingleTimetable> {
         padding: const EdgeInsets.only(bottom: 0),
         child: Container(
           height: DeviceUtils.isTablet(context)
-              ? ColumnLength / 2 * tabletBoxSize + ColumnLength
-              : ColumnLength / 2 * boxSize + ColumnLength,
+              ? columnLength / 2 * tabletBoxSize + columnLength
+              : columnLength / 2 * boxSize + columnLength,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primaryContainer,
             border: Border.all(
@@ -1027,9 +1035,9 @@ class _SingleTimetableState extends State<SingleTimetable> {
           SizedBox(
             height: DeviceUtils.isTablet(context)
                 ? tabletFirstColumnHeight
-                : FirstColumnHeight,
+                : firstColumnHeight,
           ),
-          ...List.generate(ColumnLength, (index) {
+          ...List.generate(columnLength, (index) {
             int displayedHour = (index / 2).floor() + earliestStartTime.inHours;
             if (displayedHour >= 12) {
               displayedHour = displayedHour - 12;
@@ -1065,7 +1073,7 @@ class _SingleTimetableState extends State<SingleTimetable> {
             Column(
               children: [
                 SizedBox(
-                  height: FirstColumnHeight,
+                  height: firstColumnHeight,
                   child: Center(
                     child: Text(
                       week[
@@ -1075,7 +1083,7 @@ class _SingleTimetableState extends State<SingleTimetable> {
                     ),
                   ),
                 ),
-                ...List.generate(ColumnLength, (i) {
+                ...List.generate(columnLength, (i) {
                   // Avoid variable shadowing
                   if (i % 2 == 0) {
                     return const Divider(color: Colors.grey, height: 0);

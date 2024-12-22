@@ -11,6 +11,7 @@ import 'package:august/pages/main/no_network_page.dart';
 import 'package:august/pages/main/schedule_page.dart';
 import 'package:august/provider/Institution_provider.dart';
 import 'package:august/provider/department_provider.dart';
+import 'package:august/provider/my_code_provider.dart';
 import 'package:august/provider/semester_provider.dart';
 import 'package:august/provider/show_ads_provider.dart';
 import 'package:august/provider/user_info_provider.dart';
@@ -121,6 +122,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => AdminProvider()),
             ChangeNotifierProvider(create: (context) => ShowAdProvider()),
             ChangeNotifierProvider(create: (context) => AppIconProvider()),
+            ChangeNotifierProvider(create: (context) => MyCodeProvider()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

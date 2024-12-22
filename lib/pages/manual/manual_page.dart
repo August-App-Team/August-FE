@@ -23,11 +23,9 @@ import '../../get_api/timetable/schedule.dart';
 
 class ManualPage extends StatefulWidget {
   final List<ScheduleList> coursesData; // Course is a hypothetical class here.
-  final int index;
   const ManualPage({
     Key? key,
     this.coursesData = const [],
-    this.index = 0,
   }) : super(key: key);
 
   @override

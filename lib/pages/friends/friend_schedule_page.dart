@@ -174,6 +174,7 @@ class _FriendSchedulePageState extends State<FriendSchedulePage>
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
+            backgroundColor: Theme.of(context).colorScheme.background,
             icon: Icon(
               FeatherIcons.alertTriangle,
               color: Colors.redAccent,

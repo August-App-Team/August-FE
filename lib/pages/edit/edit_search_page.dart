@@ -185,6 +185,7 @@ class _EditSearchPageState extends State<EditSearchPage>
         _foundCourses = apiData;
       });
     }
+    await _storeSearchKeyword(enteredKeyword);
     return apiData;
   }
 
@@ -329,12 +330,12 @@ class _EditSearchPageState extends State<EditSearchPage>
                       contentPadding: EdgeInsets.symmetric(vertical: 15.0),
                       border: OutlineInputBorder(
                         // 기본 테두리 설정
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none, // 둘레 색 없애기
                       ),
                       focusedBorder: OutlineInputBorder(
                         // 포커스 됐을 때의 테두리 설정
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none, // 둘레 색 없애기
                       ),
                       hintText: 'Search Course',

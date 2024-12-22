@@ -58,7 +58,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             : widget.isFriendsPage
                 ? 45
                 : widget.isMePage
-                    ? 20
+                    ? 25 // original is 20
                     : widget.isProfilePage
                         ? 100
                         : widget.isMyCode

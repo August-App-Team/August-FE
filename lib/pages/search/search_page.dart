@@ -164,33 +164,6 @@ class _SearchPageState extends State<SearchPage>
                             color: Theme.of(context).colorScheme.outline,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            _navigateToPageSemester();
-                            HapticFeedback.mediumImpact();
-                          },
-                          child: Row(
-                            children: [
-                              Consumer<SemesterProvider>(
-                                builder: (context, semesterProvider, child) {
-                                  return Text(
-                                      formatSemester(semesterProvider.semester),
-                                      style: AugustFont.subText(
-                                        color: Colors.grey,
-                                      )
-                                      // style: TextStyle(
-                                      //     fontSize: 15, color: Colors.grey),
-                                      );
-                                },
-                              ),
-                              Icon(
-                                AugustIcons.arrowRight,
-                                color: Colors.grey,
-                                size: 15,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -199,7 +172,7 @@ class _SearchPageState extends State<SearchPage>
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    top: 15.0, bottom: 15.0, left: 10.0, right: 10.0),
+                    top: 10.0, bottom: 15.0, left: 10.0, right: 10.0),
                 child: AnimatedTextField(
                     style: AugustFont.textField(
                       color: Theme.of(context).colorScheme.outline,
@@ -226,12 +199,12 @@ class _SearchPageState extends State<SearchPage>
                       contentPadding: EdgeInsets.symmetric(vertical: 15.0),
                       border: OutlineInputBorder(
                         // 기본 테두리 설정
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none, // 둘레 색 없애기
                       ),
                       focusedBorder: OutlineInputBorder(
                         // 포커스 됐을 때의 테두리 설정
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none, // 둘레 색 없애기
                       ),
                       prefixIcon: Icon(

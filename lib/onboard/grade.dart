@@ -129,6 +129,9 @@ class _GradePageState extends State<GradePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double minHeightForLargeDevice = 812.0;
+    bool isLargeDevice = screenSize.height > minHeightForLargeDevice;
     print('Current selectGrade value: $selectGrade');
     List<String> grades = [
       'Freshman',
@@ -278,11 +281,9 @@ class _GradePageState extends State<GradePage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          bottom: 60,
-        ),
+        padding: isLargeDevice
+            ? const EdgeInsets.only(left: 15, right: 15, bottom: 40, top: 40)
+            : const EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 15),
         child: widget.onboard
             ? GestureDetector(
                 onTap: () {
@@ -295,6 +296,8 @@ class _GradePageState extends State<GradePage> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
                           icon: Icon(
                             FeatherIcons.alertTriangle,
                             color: Colors.redAccent,

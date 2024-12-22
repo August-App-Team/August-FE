@@ -47,7 +47,7 @@ class SemesterProvider with ChangeNotifier {
 
         if ((lastSemesterInt ~/ 100 - currentYearMonthInt ~/ 100) * 12 +
                 (lastSemesterInt % 100 - currentYearMonthInt % 100) >
-            2) {
+            3) {
           _semester = _semesterList[_semesterList.length - 3];
         } else {
           _semester = _semesterList.last;

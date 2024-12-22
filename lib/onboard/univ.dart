@@ -160,6 +160,9 @@ class _UnivPageState extends State<UnivPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double minHeightForLargeDevice = 812.0;
+    bool isLargeDevice = screenSize.height > minHeightForLargeDevice;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: ColorfulSafeArea(
@@ -273,12 +276,12 @@ class _UnivPageState extends State<UnivPage> {
                         contentPadding: EdgeInsets.symmetric(vertical: 15.0),
                         border: OutlineInputBorder(
                           // 기본 테두리 설정
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none, // 둘레 색 없애기
                         ),
                         focusedBorder: OutlineInputBorder(
                           // 포커스 됐을 때의 테두리 설정
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none, // 둘레 색 없애기
                         ),
                         prefixIcon: Icon(
@@ -345,11 +348,9 @@ class _UnivPageState extends State<UnivPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          bottom: 60,
-        ),
+        padding: isLargeDevice
+            ? const EdgeInsets.only(left: 15, right: 15, bottom: 40, top: 40)
+            : const EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 15),
         child: widget.onboard
             ? GestureDetector(
                 onTap: () {
@@ -364,6 +365,8 @@ class _UnivPageState extends State<UnivPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
                             icon: Icon(
                               FeatherIcons.alertTriangle,
                               color: Colors.redAccent,

@@ -232,15 +232,18 @@ class _GroupSearchPageState extends State<GroupSearchPage>
                       contentPadding: EdgeInsets.symmetric(vertical: 15.0),
                       border: OutlineInputBorder(
                         // 기본 테두리 설정
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none, // 둘레 색 없애기
                       ),
                       focusedBorder: OutlineInputBorder(
                         // 포커스 됐을 때의 테두리 설정
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none, // 둘레 색 없애기
                       ),
                       hintText: 'Search Courses',
+                      hintStyle: AugustFont.textField(
+                        color: Colors.grey,
+                      ),
                       prefixIcon: Icon(
                         AugustIcons.search,
                         size: 25.0,
@@ -477,6 +480,9 @@ class _GroupSearchPageState extends State<GroupSearchPage>
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .background,
                                       icon: Icon(
                                         FeatherIcons.alertTriangle,
                                         color: Colors.redAccent,

@@ -21,6 +21,7 @@ class _NewSemButtonState extends State<NewSemButton> {
   String displayedText = ''; // To control which text is displayed first
   bool showFullText = false;
   int toggleCount = 0; // Counter for number of text toggles
+  bool isDisposed = false; // Track whether the widget is disposed
 
   @override
   void initState() {
@@ -31,12 +32,22 @@ class _NewSemButtonState extends State<NewSemButton> {
     });
   }
 
+  @override
+  void dispose() {
+    isDisposed = true; // Mark the widget as disposed
+    super.dispose();
+  }
+
   void toggleText() {
     // Increment toggle count and update text state
-    setState(() {
-      toggleCount++;
-      showFullText = !showFullText;
-    });
+    if (isDisposed) return; // If disposed, stop any further actions
+
+    if (mounted) {
+      setState(() {
+        toggleCount++;
+        showFullText = !showFullText;
+      });
+    }
 
     // If toggle count hasn't reached 10, continue toggling text
     if (toggleCount < 10) {
@@ -57,13 +68,24 @@ class _NewSemButtonState extends State<NewSemButton> {
               semesterProvider.semestersList.indexOf(currentSemester);
           String nextSemestersText = '';
 
+          final DateTime now = DateTime.now();
+          final String currentYearMonth =
+              '${now.year}${now.month.toString().padLeft(2, '0')}';
+
           // 현재 학기 뒤에 있는 모든 학기들을 가져와서 formatSemester 적용 후 텍스트로 변환
           if (currentIndex >= 0 &&
               currentIndex < semesterProvider.semestersList.length - 1) {
             List<String> nextSemesters =
                 semesterProvider.semestersList.sublist(currentIndex + 1);
 
-            // Check if there are any next semesters
+            // Filter semesters that are strictly after the currentMonth
+            nextSemesters = nextSemesters
+                .where((semester) =>
+                    int.parse(semester) > int.parse(currentYearMonth))
+                .toList();
+            print("nextSemesters: $nextSemesters");
+
+            // Check if there are any valid next semesters after currentMonth
             if (nextSemesters.isNotEmpty) {
               nextSemestersText = nextSemesters
                   .map((semester) =>
@@ -71,7 +93,7 @@ class _NewSemButtonState extends State<NewSemButton> {
                   .join('\n'); // Join formatted semesters with newlines
             } else {
               nextSemestersText =
-                  ''; // or provide a message like "No more semesters"
+                  ''; // No valid semesters after the current month
             }
           } else {
             nextSemestersText =

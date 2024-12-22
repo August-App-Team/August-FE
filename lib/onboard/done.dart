@@ -56,6 +56,9 @@ class _OnBoardDonePageState extends State<OnBoardDonePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double minHeightForLargeDevice = 812.0;
+    bool isLargeDevice = screenSize.height > minHeightForLargeDevice;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: ColorfulSafeArea(
@@ -119,11 +122,9 @@ class _OnBoardDonePageState extends State<OnBoardDonePage> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          bottom: 60,
-        ),
+        padding: isLargeDevice
+            ? const EdgeInsets.only(left: 15, right: 15, bottom: 40, top: 40)
+            : const EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 15),
         child: GestureDetector(
           onTap: () async {
             checkAccessToken();

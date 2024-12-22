@@ -18,6 +18,7 @@ void showAlertDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.background,
         icon: Icon(
           Icons.error,
           color: Colors.redAccent,
